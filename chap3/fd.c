@@ -1,7 +1,7 @@
 /*******************************************************
  * @file fd.c
  * @author Andromeda (ech0uname@qq.com)
- * @brief 文件描述符示例程序
+ * @brief 文件描述符示例程序-open openat close write read lseek
  * @version 0.1
  * @date 2023-12-03
  *
@@ -27,6 +27,7 @@ int main(int argc, char const *argv[])
     // 读取内容
     fd = open("./test", O_RDONLY);
     bzero(buff, BUFFER_SIZE);
+    // 读取成功返回读取的字节数，如果读取完文件，则返回0，出错返回-1
     read(fd, buff, BUFFER_SIZE);
     printf("%s\n", buff);
     bzero(buff, BUFFER_SIZE);
@@ -52,7 +53,7 @@ int main(int argc, char const *argv[])
     close(fd);
 
     // lseek函数
-    fd = open("./test", O_RDONLY);
+    fd = open("./test", O_RDWR | O_APPEND);
     bzero(buff, BUFFER_SIZE);
     // 偏移量为2
     off_t offset = 2;
@@ -63,7 +64,10 @@ int main(int argc, char const *argv[])
      * SEEK_CUR	1	Seek from current position.
      * SEEK_END 2   Seek from end of file.
      */
-    lseek(fd, offset, SEEK_CUR);
+    if (lseek(fd, offset, SEEK_CUR) == -1)
+    {
+        perror("lseek fail");
+    }
     read(fd, buff, BUFFER_SIZE);
     printf("%s\n", buff);
     bzero(buff, BUFFER_SIZE);
