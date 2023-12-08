@@ -11,6 +11,9 @@
 #include <errno.h>
 #include <signal.h>
 #include <fcntl.h>
+#include <sys/time.h>
+#include <sys/ioctl.h>
+#include <termio.h>
 
 #define BUFFER_SIZE 1024
 
